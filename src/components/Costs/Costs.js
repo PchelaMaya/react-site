@@ -6,31 +6,36 @@ import React, { useState } from 'react';
 
 const Costs = (props) => {
     const [selectedYear, setSelectedYear] = useState('2022');
+    
     const yearChangeHandler = (year) => {
         setSelectedYear(year);
     };
+    //отображение данных в зависимости от выбранной даты
+    const filteredCosts = props.costs.filter((cost) => 
+    {
+        return cost.date.getFullYear().toString() === selectedYear;
+    })
+
+    let costsContent = <p>В этом году расходов нет</p>
+    
+    if (filteredCosts.length > 0) {
+        costsContent = filteredCosts.map((cost) =>(
+            <CostItem 
+                key={cost.id}
+                date={cost.date} 
+                description={cost.description} 
+                amount={cost.amount}
+            />
+        ))
+    }
     return (
     <div>
         <Card className='costs'>
-        <CostsFilter
-            year={selectedYear} 
-            onChangeYear={yearChangeHandler}
-        />
-            <CostItem 
-                date={props.costs[0].date} 
-                description={props.costs[0].description} 
-                amount={props.costs[0].amount}
+            <CostsFilter
+                year={selectedYear} 
+                onChangeYear={yearChangeHandler}
             />
-            <CostItem
-                date={props.costs[1].date} 
-                description={props.costs[1].description} 
-                amount={props.costs[1].amount}
-            />
-            <CostItem
-                date={props.costs[2].date} 
-                description={props.costs[2].description} 
-                amount={props.costs[2].amount}
-            />
+            {costsContent}
         </Card>
     </div>
     );

@@ -31,12 +31,12 @@ const CostForm = (props) => {
         event.preventDefault();
 
         const costData = {
-            name: inputName,
+            description: inputName,
             amount: inputAmount,
             date: new Date(inputDate)
         }
         //ниже коммуникация с компонентом NewCost
-        props.onSaveCostData();
+        props.onSaveCostData(costData);
         setInputName('');
         setInputAmount('');
         setInputDate('');
